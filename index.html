@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Chirality in Action: Time-Aware Video Representation Learning by Latent Straightening">
+  <meta name="keywords" content="Video representation learning, temporal understanding, action recognition, temporal modeling, time-aware representation learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chirality in Action</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <style>
+    .video-carousel-container {
+      position: relative;
+      width: 100%;
+      margin: 20px 0;
+    }
+    
+    .video-carousel {
+      position: relative;
+      width: 100%;
+    }
+    
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    
+    .carousel-btn {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      padding: 15px 20px;
+      font-size: 24px;
+      cursor: pointer;
+      border-radius: 50%;
+      pointer-events: all;
+      transition: background 0.3s;
+    }
+    
+    .carousel-btn:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+    
+    .prev-btn {
+      margin-left: 20px;
+    }
+    
+    .next-btn {
+      margin-right: 20px;
+    }
+  </style>
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+  <!-- <link rel="icon" href="./static/images/uva.png"> -->
+  <!-- <link rel="icon" href="./static/images/oxford-logo.png"> -->
+  <link rel="icon" href="./static/images/vgg-logo.png">
+
+  <!-- Add copy button CSS and JS -->
+  <link rel="stylesheet" type="text/css" href="./static/css/copy_button.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <!-- <script src="./static/js/index.js"></script> -->
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://www.robots.ox.ac.uk/~vgg/publications/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://www.robots.ox.ac.uk/~vgg/publications/">
+            VGG, Oxford
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<!-- Title section -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <img src="./assets/clock-time.gif" width="70"/>
+          <h1 class="title is-1 publication-title">
+            <!-- &#129371;  -->
+            <!-- <img src="./assets/clock-time.gif" width="70"/> -->
+            Chirality in Action: Time-Aware Video Representation Learning by Latent Straightening
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://bpiyush.github.io">Piyush Bagad</a>, &nbsp;
+            </span>
+            <span class="author-block">
+              <a href="https://www.robots.ox.ac.uk/~az/">Andrew Zisserman</a>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">University of Oxford  &nbsp;  </span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Camera-ready</span>
+                </a>
+              </span> -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2509.08502"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <!-- <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span> -->
+                  <span>📋 arXiv</span>
+                </a>
+              </span>
+            </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Coming Soon)</span>
+                  </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/bpiyush/chirality-in-action"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <!-- <span class="icon">
+                    <i class="fas fa-database"></i>
+                  </span> -->
+                  <span>🤗 Data</span>
+                  </a>
+              </span>
+              <!-- <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-chalkboard"></i>
+                  </span>
+                  <span>Poster</span>
+                </a>
+              </span> -->
+              <!-- Video Link. -->
+                <!-- <span class="link-block">
+                  <a href="#"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fab fa-youtube"></i>
+                    </span>
+                    <span>Video</span>
+                  </a>
+                </span>   -->
+                <span class="link-block">
+                  <a href="#"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <!-- <span class="icon">
+                        <i class="fas fa-chalkboard"></i>
+                    </span> -->
+                    <span>🤗 Models (Coming Soon)</span>
+                  </a>
+                </span>    
+                <!-- Demo -->
+                <!-- <span class="link-block">
+                  <a href="https://huggingface.co/spaces/bpiyush/SoundOfWater"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fas fa-chalkboard"></i>
+                    </span>
+                    <span>Demo</span>
+                  </a>
+                </span>   -->
+                <!-- ICASSP Poster -->
+                <span class="link-block">
+                  <a href="./assets/icassp-poster-v3-5.pdf"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fas fa-file-powerpoint"></i>
+                    </span>
+                    <span>Poster (NeurIPS 2025)</span>
+                  </a>
+                </span> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!-- <img src="./media/teaser-v1-2x.gif" alt="drawing" style="width:100%;"/> -->
+      <div class="video-carousel-container">
+        <div class="video-carousel">
+          <video id="carousel-video" autoplay muted loop style="width:100%;">
+            <source src="./assets/climb_up_down.mov" type="video/mp4">
+          </video>
+          <div class="carousel-controls">
+            <button class="carousel-btn prev-btn" onclick="previousVideo()">❮</button>
+            <button class="carousel-btn next-btn" onclick="nextVideo()">❯</button>
+          </div>
+        </div>
+      </div>
+      <!-- <br> -->
+      <div style="text-align: justify">
+      <span>
+        <b>Chiral actions</b>: Our objective is to learn a video embedding that encodes the direction of time
+        such that it is able to linearly separate temporally opposite (chiral) actions.
+      </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="acknowledgements">
+  <div class="container is-max-desktop content">
+    <h3 class="title">🙏 Acknowledgements</h3>
+    <ul>
+      <li>
+        We thank <a href="https://www.cs.ox.ac.uk/people/ashish.thandavan/">Ashish Thandavan</a> 
+        for support with infrastructure and
+        <a href="https://sindhu-hegde.github.io/">Sindhu Hegde</a>,
+        <!-- <a href="https://ragavsachdeva.github.io/">Ragav Sachdeva</a>, -->
+        <!-- <a href="https://www.robots.ox.ac.uk/~jaesung/">Jaesung Huh</a>, -->
+        <!-- <a href="https://v-iashin.github.io/">Vladimir Iashin</a>,  -->
+        <!-- <a href="https://www.robots.ox.ac.uk/~prajwal/">Prajwal KR</a>, -->
+        <a href="https://makarandtapaswi.github.io/">Makarand Tapaswi</a>,
+        <!-- and 
+        <a href="https://rodosingh.github.io/">Aditya Singh</a> for useful discussions. -->
+      </li>
+      <!-- <li>
+        We thank <a href="https://www.cs.unc.edu/~wilson/">Justin Wilson</a> for their 
+        encouragement and help with details regarding dataset proposed in 
+        <a href="https://gamma.cs.unc.edu/PSNN/">Wilson et al.</a> (2019).
+      </li> -->
+      <li>
+        This research is funded by the EPSRC Programme Grant VisualAI EP/T028572/1, and a Royal Society Research Professorship RSRP\R\241003</li>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">📜 Citation</h2>
+      <pre><code id="code-block-article">
+      @article{bagad2025chirality,
+        title={Chirality in Action: Time-Aware Video Representation Learning by Latent Straightening},
+        author={Bagad, Piyush and Zisserman, Andrew},
+        journal={arXiv preprint arXiv:2509.08502},
+        year={2025}
+      }
+      </code></pre>
+      <!-- <button class="copy-button" data-clipboard-target="#code-block-article">Copy article</button> -->
+
+      <pre><code id="code-block-inproceedings">
+      @inproceedings{
+            bagad2025chirality,
+            title={Chirality in Action: Time-Aware Video Representation Learning by Latent Straightening},
+            author={Bagad, Piyush and Zisserman, Andrew},
+            booktitle={NeurIPS},
+            year={2025}
+      }
+      </code></pre>
+      <!-- <button class="copy-button" data-clipboard-target="#code-block-inproceedings">Copy conference</button> -->
+    </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns">
+      <div class="column">
+        <h2 class="title is-4">📙 Related Work</h2>
+        <div class="content has-text-justified">
+          Please also consider looking at the following related papers that we were inspired by:
+          <ul>
+            <li>
+              <a href="https://vision.cs.utexas.edu/projects/SeeAoT/">Seeing the Arrow of Time in Large Multimodal Models. </a> NeurIPS (2025).
+            </li>
+            <li>
+              <a href="https://arxiv.org/abs/1909.09422">Retro-Actions: Learning ‘Close’ by Time-Reversing ‘Open’ Videos.</a> ICCVW (2019).
+            </li>
+            <li>
+              <a href="https://www.nature.com/articles/s41593-019-0377-4">Perceptual straightening of natural videos.</a> Nature Neuroscience (2019).
+            </li>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="#">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="#" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This website is based on the template from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. We sincerely thank <a href="https://keunhong.com/">Keunhong Park</a> for developing and open-sourcing this template.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script src="./static/js/copy_button.js"></script>
+
+<script>
+  const videos = [
+    './assets/climb_up_down.mov',
+    './assets/moving_up_down.mov',
+    './assets/opening_closing_fridge.mov',
+    './assets/pull_left_right.mov'
+  ];
+  
+  let currentVideoIndex = 0;
+  let autoPlayInterval;
+  
+  function changeVideo(index) {
+    const video = document.getElementById('carousel-video');
+    video.src = videos[index];
+    video.load();
+    video.play();
+  }
+  
+  function nextVideo() {
+    currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+    changeVideo(currentVideoIndex);
+  }
+  
+  function previousVideo() {
+    currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
+    changeVideo(currentVideoIndex);
+  }
+  
+  function startAutoPlay() {
+    autoPlayInterval = setInterval(nextVideo, 4000); // Change video every 4 seconds
+  }
+  
+  function stopAutoPlay() {
+    clearInterval(autoPlayInterval);
+  }
+  
+  // Start auto-play when page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    startAutoPlay();
+    
+    // Pause auto-play when hovering over carousel
+    const carousel = document.querySelector('.video-carousel');
+    carousel.addEventListener('mouseenter', stopAutoPlay);
+    carousel.addEventListener('mouseleave', startAutoPlay);
+  });
+</script>
+
+</body>
+</html>
