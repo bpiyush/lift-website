@@ -78,6 +78,12 @@
       object-fit: contain;
       width: 100%;
     }
+    
+    #qual-carousel-image {
+      height: 400px;
+      object-fit: contain;
+      width: 100%;
+    }
   </style>
     /* No custom model controls needed: using native video controls */
   <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
@@ -311,7 +317,7 @@
 
 <section class="hero teaser">
   <div class="container is-max-desktop">
-    <h2 class="title is-4">🏗️ The Model</h2>
+    <h2 class="title is-4">🏗️ The Model: LiFT</h2>
       <div class="hero-body">
         Please play the video animation below to understand the LiFT model design.
         <video id="model-explainer-video" controls muted playsinline loop style="width:100%; height:auto;">
@@ -327,11 +333,37 @@
           <li>
             What does LiFT learn? We observe that it essentially learns a smooth approximation of 
             the feature trajectory. Furthermore, it is able to learn different embeddings for
-            videos of opening vs closing door actions. 
+            videos of opening vs closing door actions. See the qualitative results below.
           </li>
         </ul>
       </div>
+      <!-- Add a carousel to show three qual images -->
+      <div class="video-carousel-container">
+        <button class="carousel-btn prev-btn" onclick="previousQualImage()">❮</button>
+        <div class="video-carousel">
+          <img id="qual-carousel-image" src="./assets/qual-result-1.png" alt="Qualitative Result" style="width: 100%; height: 400px; object-fit: contain;">
+        </div>
+        <button class="carousel-btn next-btn" onclick="nextQualImage()">❯</button>
+      </div>
     </div>
+  </div>
+</section>
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">🎞️ The Chirality in Action Benchmark</h2>
+    <span>
+      We repurpose three existing datasets (SSv2, EPIC, Charades) to mine chiral actions
+      and build a new benchmark to probe video embedding models for chirality. We search
+      for temporally opposite verbs using ChatGPT and then group together similar nouns
+      to construct chiral groups.
+    </span>
+    <div class="hero-body">
+      <img src="./assets/cia-snap.png" width="85%"/>
+    </div>
+    <span><b>Evaluation protocol:</b> For each chiral group, we compute video embeddings for + and - samples. Then, we train a linear probe. The overall accuracy is averaged across all chiral groups.</span>
+    
   </div>
 </section>
 
@@ -473,8 +505,15 @@
     './assets/dino_trajectory-15.mp4'
   ];
   
+  const qualImages = [
+    './assets/qual-result-1.png',
+    './assets/qual-result-2.png',
+    './assets/qual-result-3.png'
+  ];
+  
   let currentVideoIndex = 0;
   let currentDinoVideoIndex = 0;
+  let currentQualImageIndex = 0;
   
   function changeVideo(index) {
     const video = document.getElementById('carousel-video');
@@ -492,6 +531,12 @@
     video.load();
     video.playbackRate = 0.8;
     video.play();
+  }
+  
+  function changeQualImage(index) {
+    const image = document.getElementById('qual-carousel-image');
+    const newSrc = qualImages[index];
+    image.src = newSrc;
   }
   
   function nextVideo() {
@@ -512,6 +557,16 @@
   function previousDinoVideo() {
     currentDinoVideoIndex = (currentDinoVideoIndex - 1 + dinoVideos.length) % dinoVideos.length;
     changeDinoVideo(currentDinoVideoIndex);
+  }
+  
+  function nextQualImage() {
+    currentQualImageIndex = (currentQualImageIndex + 1) % qualImages.length;
+    changeQualImage(currentQualImageIndex);
+  }
+  
+  function previousQualImage() {
+    currentQualImageIndex = (currentQualImageIndex - 1 + qualImages.length) % qualImages.length;
+    changeQualImage(currentQualImageIndex);
   }
   
   // Removed timer-based auto-play to allow videos to finish naturally
