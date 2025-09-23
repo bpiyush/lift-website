@@ -79,13 +79,12 @@
       width: 100%;
     }
     
-    #qual-carousel-image {
+    #qual-carousel-image, #quan-carousel-image {
       height: 400px;
       object-fit: contain;
       width: 100%;
     }
   </style>
-    /* No custom model controls needed: using native video controls */
   <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
   <!-- <link rel="icon" href="./static/images/uva.png"> -->
   <!-- <link rel="icon" href="./static/images/oxford-logo.png"> -->
@@ -358,12 +357,39 @@
       and build a new benchmark to probe video embedding models for chirality. We search
       for temporally opposite verbs using ChatGPT and then group together similar nouns
       to construct chiral groups.
-    </span>
+    </span><br
+    <span><b>Evaluation protocol:</b> For each chiral group, we compute video embeddings for + and - samples. Then, we train a linear probe. The overall accuracy is averaged across all chiral groups.</span>
     <div class="hero-body">
       <img src="./assets/cia-snap.png" width="85%"/>
     </div>
-    <span><b>Evaluation protocol:</b> For each chiral group, we compute video embeddings for + and - samples. Then, we train a linear probe. The overall accuracy is averaged across all chiral groups.</span>
-    
+  </div>
+</section>
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">🗒️ Highlight Results</h2>
+    <span>
+      We evaluate LiFT on the CiA benchmark as well as standard action recognition benchmarks.
+      First, we show that LiFT embeddings are time-sensitive (chiral-sensitive) & compact even
+      outperforming much bigger video models like VideoJEPA and VideoMAE.
+      Second, we show that LiFT encodes temporal information that is likely complementary to
+      existing video models such as VideoJEPA. This is established by the performance gains
+      we observe when concatenating LiFT embeddings with VideoJEPA embeddings on standard action recognition benchmarks.
+    </span>
+
+    <div class="hero-body"> 
+      <div class="video-carousel-container">
+        <button class="carousel-btn prev-btn" onclick="previousQuanImage()">❮</button>
+        <div class="video-carousel">
+          <img id="quan-carousel-image" src="./assets/quan-result-1.png" alt="Quantitative Result">
+          <div id="quan-carousel-caption" style="text-align: center; margin-top: 8px; font-weight: 500;">
+            LiFT embeddings are time-sensitive (chiral-sensitive) & compact
+          </div>
+        </div>
+        <button class="carousel-btn next-btn" onclick="nextQuanImage()">❯</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -380,7 +406,7 @@
         <!-- <a href="https://www.robots.ox.ac.uk/~jaesung/">Jaesung Huh</a>, -->
         <!-- <a href="https://v-iashin.github.io/">Vladimir Iashin</a>,  -->
         <!-- <a href="https://www.robots.ox.ac.uk/~prajwal/">Prajwal KR</a>, -->
-        <a href="https://makarandtapaswi.github.io/">Makarand Tapaswi</a>,
+        <a href="https://makarandtapaswi.github.io/">Makarand Tapaswi</a>, for useful discussions.
         <!-- and 
         <a href="https://rodosingh.github.io/">Aditya Singh</a> for useful discussions. -->
       </li>
@@ -399,6 +425,7 @@
 <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">📜 Citation</h2>
+      If you find this work useful, please consider citing:
       <pre><code id="code-block-article">
       @article{bagad2025chirality,
         title={Chirality in Action: Time-Aware Video Representation Learning by Latent Straightening},
@@ -511,9 +538,20 @@
     './assets/qual-result-3.png'
   ];
   
+  const quanImages = [
+    './assets/quan-result-1.png',
+    './assets/quan-result-2.png'
+  ];
+  
+  const quanCaptions = [
+    'LiFT embeddings are time-sensitive (chiral-sensitive) & compact',
+    'LiFT embeddings *lift* the performance of standard models like VJEPA with concatenation'
+  ];
+  
   let currentVideoIndex = 0;
   let currentDinoVideoIndex = 0;
   let currentQualImageIndex = 0;
+  let currentQuanImageIndex = 0;
   
   function changeVideo(index) {
     const video = document.getElementById('carousel-video');
@@ -537,6 +575,16 @@
     const image = document.getElementById('qual-carousel-image');
     const newSrc = qualImages[index];
     image.src = newSrc;
+  }
+  
+  function changeQuanImage(index) {
+    const image = document.getElementById('quan-carousel-image');
+    const caption = document.getElementById('quan-carousel-caption');
+    const newSrc = quanImages[index];
+    image.src = newSrc;
+    if (caption) {
+      caption.innerHTML = quanCaptions[index];
+    }
   }
   
   function nextVideo() {
@@ -569,6 +617,16 @@
     changeQualImage(currentQualImageIndex);
   }
   
+  function nextQuanImage() {
+    currentQuanImageIndex = (currentQuanImageIndex + 1) % quanImages.length;
+    changeQuanImage(currentQuanImageIndex);
+  }
+  
+  function previousQuanImage() {
+    currentQuanImageIndex = (currentQuanImageIndex - 1 + quanImages.length) % quanImages.length;
+    changeQuanImage(currentQuanImageIndex);
+  }
+  
   // Removed timer-based auto-play to allow videos to finish naturally
   
   // Start auto-play when page loads
@@ -588,7 +646,6 @@
 
     carouselVideo.addEventListener('ended', nextVideo);
     dinoCarouselVideo.addEventListener('ended', nextDinoVideo);
-    // Using native controls for model video; no custom handlers needed
   });
 </script>
 
