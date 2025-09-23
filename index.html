@@ -34,48 +34,50 @@
   <link rel="stylesheet" href="./static/css/index.css">
   <style>
     .video-carousel-container {
-      position: relative;
+      display: flex;
+      align-items: center;
       width: 100%;
       margin: 20px 0;
+      gap: 15px;
     }
     
     .video-carousel {
+      flex: 1;
       position: relative;
-      width: 100%;
-    }
-    
-    .carousel-controls {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      pointer-events: none;
     }
     
     .carousel-btn {
-      background: rgba(0, 0, 0, 0.7);
+      background: #6b7280;
       color: white;
       border: none;
-      padding: 15px 20px;
-      font-size: 24px;
+      padding: 12px 16px;
+      font-size: 20px;
       cursor: pointer;
       border-radius: 50%;
-      pointer-events: all;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      min-width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .carousel-btn:hover {
-      background: rgba(0, 0, 0, 0.9);
+      background: #4b5563;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
     }
     
-    .prev-btn {
-      margin-left: 20px;
+    .carousel-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
     
-    .next-btn {
-      margin-right: 20px;
+    #carousel-video, #dino-carousel-video {
+      height: 400px;
+      object-fit: contain;
+      width: 100%;
     }
   </style>
   <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
@@ -254,15 +256,13 @@
     <div class="hero-body">
       <!-- <img src="./media/teaser-v1-2x.gif" alt="drawing" style="width:100%;"/> -->
       <div class="video-carousel-container">
+        <button class="carousel-btn prev-btn" onclick="previousVideo()">❮</button>
         <div class="video-carousel">
-          <video id="carousel-video" autoplay muted loop style="width:100%;">
+          <video id="carousel-video" autoplay muted>
             <source src="./assets/climb_up_down.mov" type="video/mp4">
           </video>
-          <div class="carousel-controls">
-            <button class="carousel-btn prev-btn" onclick="previousVideo()">❮</button>
-            <button class="carousel-btn next-btn" onclick="nextVideo()">❯</button>
-          </div>
         </div>
+        <button class="carousel-btn next-btn" onclick="nextVideo()">❯</button>
       </div>
       <!-- <br> -->
       <div style="text-align: justify">
@@ -270,6 +270,30 @@
         <b>Chiral actions</b>: Our objective is to learn a video embedding that encodes the direction of time
         such that it is able to linearly separate temporally opposite (chiral) actions.
       </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">🔐 The Key Nugget</h2>
+    <span>
+      <b>Key observation</b>: tSNE projections of per-frame features from DINOv2 show that they lie on a time-sensitive trajectory. Can we
+      use these to learn a time-aware video representation?
+    </span>
+    <div class="hero-body">
+      <div class="video-carousel-container">
+        <button class="carousel-btn prev-btn" onclick="previousDinoVideo()">❮</button>
+        <div class="video-carousel">
+          <video id="dino-carousel-video" autoplay muted>
+            <source src="./assets/dino_trajectory-1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <button class="carousel-btn next-btn" onclick="nextDinoVideo()">❯</button>
+      </div>
+      <div style="text-align: justify">
+      
       </div>
     </div>
   </div>
@@ -395,12 +419,39 @@
     './assets/pull_left_right.mov'
   ];
   
+  const dinoVideos = [
+    './assets/dino_trajectory-1.mp4',
+    './assets/dino_trajectory-2.mp4',
+    './assets/dino_trajectory-3.mp4',
+    './assets/dino_trajectory-4.mp4',
+    './assets/dino_trajectory-5.mp4',
+    './assets/dino_trajectory-6.mp4',
+    './assets/dino_trajectory-7.mp4',
+    './assets/dino_trajectory-8.mp4',
+    './assets/dino_trajectory-9.mp4',
+    './assets/dino_trajectory-10.mp4',
+    './assets/dino_trajectory-11.mp4',
+    './assets/dino_trajectory-12.mp4',
+    './assets/dino_trajectory-13.mp4',
+    './assets/dino_trajectory-14.mp4',
+    './assets/dino_trajectory-15.mp4'
+  ];
+  
   let currentVideoIndex = 0;
-  let autoPlayInterval;
+  let currentDinoVideoIndex = 0;
   
   function changeVideo(index) {
     const video = document.getElementById('carousel-video');
-    video.src = videos[index];
+    const newSrc = videos[index];
+    video.src = newSrc;
+    video.load();
+    video.play();
+  }
+  
+  function changeDinoVideo(index) {
+    const video = document.getElementById('dino-carousel-video');
+    const newSrc = dinoVideos[index];
+    video.src = newSrc;
     video.load();
     video.play();
   }
@@ -415,22 +466,26 @@
     changeVideo(currentVideoIndex);
   }
   
-  function startAutoPlay() {
-    autoPlayInterval = setInterval(nextVideo, 4000); // Change video every 4 seconds
+  function nextDinoVideo() {
+    currentDinoVideoIndex = (currentDinoVideoIndex + 1) % dinoVideos.length;
+    changeDinoVideo(currentDinoVideoIndex);
   }
   
-  function stopAutoPlay() {
-    clearInterval(autoPlayInterval);
+  function previousDinoVideo() {
+    currentDinoVideoIndex = (currentDinoVideoIndex - 1 + dinoVideos.length) % dinoVideos.length;
+    changeDinoVideo(currentDinoVideoIndex);
   }
+  
+  // Removed timer-based auto-play to allow videos to finish naturally
   
   // Start auto-play when page loads
   document.addEventListener('DOMContentLoaded', function() {
-    startAutoPlay();
+    // Advance only when each video ends
+    const carouselVideo = document.getElementById('carousel-video');
+    const dinoCarouselVideo = document.getElementById('dino-carousel-video');
     
-    // Pause auto-play when hovering over carousel
-    const carousel = document.querySelector('.video-carousel');
-    carousel.addEventListener('mouseenter', stopAutoPlay);
-    carousel.addEventListener('mouseleave', startAutoPlay);
+    carouselVideo.addEventListener('ended', nextVideo);
+    dinoCarouselVideo.addEventListener('ended', nextDinoVideo);
   });
 </script>
 
