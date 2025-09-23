@@ -37,13 +37,12 @@
       display: flex;
       align-items: center;
       width: 100%;
-      margin: 20px 0;
-      gap: 15px;
     }
     
     .video-carousel {
       flex: 1;
       position: relative;
+      padding: 0;
     }
     
     .carousel-btn {
@@ -254,7 +253,10 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <!-- <img src="./media/teaser-v1-2x.gif" alt="drawing" style="width:100%;"/> -->
+      <span>
+        <b>Chiral actions</b>: Our objective is to learn a video embedding that encodes the direction of time
+        such that it is able to linearly separate temporally opposite (chiral) actions.
+      </span>
       <div class="video-carousel-container">
         <button class="carousel-btn prev-btn" onclick="previousVideo()">❮</button>
         <div class="video-carousel">
@@ -263,13 +265,6 @@
           </video>
         </div>
         <button class="carousel-btn next-btn" onclick="nextVideo()">❯</button>
-      </div>
-      <!-- <br> -->
-      <div style="text-align: justify">
-      <span>
-        <b>Chiral actions</b>: Our objective is to learn a video embedding that encodes the direction of time
-        such that it is able to linearly separate temporally opposite (chiral) actions.
-      </span>
       </div>
     </div>
   </div>
@@ -292,9 +287,23 @@
         </div>
         <button class="carousel-btn next-btn" onclick="nextDinoVideo()">❯</button>
       </div>
-      <div style="text-align: justify">
-      
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">🧠 The Perceptual Straightening Hypothesis</h2>
+    <span>
+      Henaff et al. (2019) hypothesized that humans convert non-linear spatial representations of naturally 
+      occurring videos into linear temporal trajectories enabling their prediction with linear extrapolation.
+      We are loosely inspired by this idea to transform DINO trajectories into a time-aware video embedding
+      under a linearised Auto-Encoder model.
+    </span>
+    <div class="hero-body">
+      <img src="./assets/psh.png" width="100%"/>
+      <span> <small>[1] Perceptual straightening of natural videos. Olivier J. Hénaff, Robbe L. T. Goris and Eero P. Simoncelli. Nature 2019.</small></span>
     </div>
   </div>
 </section>
@@ -445,6 +454,7 @@
     const newSrc = videos[index];
     video.src = newSrc;
     video.load();
+    video.playbackRate = 0.8;
     video.play();
   }
   
@@ -453,6 +463,7 @@
     const newSrc = dinoVideos[index];
     video.src = newSrc;
     video.load();
+    video.playbackRate = 0.8;
     video.play();
   }
   
@@ -484,6 +495,14 @@
     const carouselVideo = document.getElementById('carousel-video');
     const dinoCarouselVideo = document.getElementById('dino-carousel-video');
     
+    // Set playback speed
+    if (carouselVideo) {
+      carouselVideo.playbackRate = 0.8;
+    }
+    if (dinoCarouselVideo) {
+      dinoCarouselVideo.playbackRate = 0.8;
+    }
+
     carouselVideo.addEventListener('ended', nextVideo);
     dinoCarouselVideo.addEventListener('ended', nextDinoVideo);
   });
