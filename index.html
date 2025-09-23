@@ -79,6 +79,7 @@
       width: 100%;
     }
   </style>
+    /* No custom model controls needed: using native video controls */
   <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
   <!-- <link rel="icon" href="./static/images/uva.png"> -->
   <!-- <link rel="icon" href="./static/images/oxford-logo.png"> -->
@@ -308,6 +309,32 @@
   </div>
 </section>
 
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">🏗️ The Model</h2>
+      <div class="hero-body">
+        Please play the video animation below to understand the LiFT model design.
+        <video id="model-explainer-video" controls muted playsinline loop style="width:100%; height:auto;">
+          <source src="./assets/lift-architecture-explainer1-ezgif.com-crop-video.mp4" type="video/mp4">
+        </video>
+        <!-- <div><a href="./assets/lift-architecture-explainer-compressed.mov" download>Download video</a></div> -->
+      <!-- Add a list with bullet points -->
+      <div class="content">
+        <ul>
+          <li>
+            LiFT is trained in an unsupervised manner by reconstructing the input feature sequence.
+          </li>
+          <li>
+            What does LiFT learn? We observe that it essentially learns a smooth approximation of 
+            the feature trajectory. Furthermore, it is able to learn different embeddings for
+            videos of opening vs closing door actions. 
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <section class="section" id="acknowledgements">
   <div class="container is-max-desktop content">
@@ -494,6 +521,7 @@
     // Advance only when each video ends
     const carouselVideo = document.getElementById('carousel-video');
     const dinoCarouselVideo = document.getElementById('dino-carousel-video');
+    const modelVideo = document.getElementById('model-explainer-video');
     
     // Set playback speed
     if (carouselVideo) {
@@ -505,6 +533,7 @@
 
     carouselVideo.addEventListener('ended', nextVideo);
     dinoCarouselVideo.addEventListener('ended', nextDinoVideo);
+    // Using native controls for model video; no custom handlers needed
   });
 </script>
 
